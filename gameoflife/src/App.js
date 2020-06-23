@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 
 class Box extends React.Component{
+  //we are using selectBox from our state only now entering the current row / current col 
   selectBox = () => {
     this.props.selectBox(this.props.row,this.props.col)
   }
@@ -21,11 +22,13 @@ class Grid extends React.Component {
     const width = this.props.cols * 16;
     let rowsArr = [];
     let boxClass = '';
+    //for loop since we are looping through a nested array
     for (let i = 0 ; i < this.props.rows; i++){
       for (let j = 0 ; j < this.props.cols; j++){
         let boxId = i + "_" + j;
-
+        //checking if the current box is true or false with a ternary operator
         boxClass = this.props.gridFull[i][j] ? 'box on': 'box off';
+        //we are pushing a box component that will contain all the information previously created into our rowsArr
         rowsArr.push(
           <Box
           boxClass = {boxClass}
@@ -46,6 +49,7 @@ class Grid extends React.Component {
   }
 }
 
+
 class App extends React.Component {
   constructor(){
     super();
@@ -62,6 +66,12 @@ class App extends React.Component {
       gridFull : Array(this.rows).fill().map(() => Array(this.cols).fill(false))
     }
     }
+    // when we originally create the 2D array every box is set to false when we use
+    // selectBox we want to change it to true
+    // add the row and col as variables 
+    // we begin by making a copy of the array using a helper method arrayClone so as to not update the state directly 
+    // find the box that was clicked and change it to the opposite of what it was 
+    // then use set state command to update the state 
   selectBox = (row,col) => {
     let gridCopy = arrayClone(this.state.gridFull);
     gridCopy[row][col] = !gridCopy[row][col]
