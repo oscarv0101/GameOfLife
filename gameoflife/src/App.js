@@ -61,11 +61,19 @@ class App extends React.Component {
       // a two dimentional array and every element is set to false every grid cell is turned off to begin with 
       gridFull : Array(this.rows).fill().map(() => Array(this.cols).fill(false))
     }
+    }
+  selectBox = (row,col) => {
+    let gridCopy = arrayClone(this.state.gridFull);
+    gridCopy[row][col] = !gridCopy[row][col]
+    this.setState({
+      gridFull: gridCopy
+      });
   }
+  
   render(){
     return (
       <div>
-      <h1>The Game of Life</h1>
+      <h1>The Game of Life </h1>
       <Grid
       gridFull={this.state.gridFull}
       rows={this.rows}
@@ -79,5 +87,8 @@ class App extends React.Component {
 }
 
 
+function arrayClone(arr){
+  return JSON.parse(JSON.stringify(arr))
+}
 
 export default App;
