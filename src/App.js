@@ -2,9 +2,11 @@ import React from 'react';
 import './App.css';
 
 class Box extends React.Component{
-  //we are using selectBox from our state only now entering the current row / current col 
-  selectBox = () => {
-    this.props.selectBox(this.props.row,this.props.col)
+  //we are using selectBox from our state only now we are entering the current row / current col 
+  //because there is nothing to pass in to this.props if its
+  //inside the render method                             / |
+  selectBox = () => {                                   // |
+    this.props.selectBox(this.props.row,this.props.col)//<-|
   }
 
   render(){
@@ -78,7 +80,26 @@ class App extends React.Component {
     this.setState({
       gridFull: gridCopy
       });
+  } 
+
+  // creating a copy of 2d array , then being iterated  and changing random boxes to true 
+  seed = () =>{
+    let gridCopy = arrayClone(this.state.gridFull);
+		for (let i = 0; i < this.rows; i++) {
+			for (let j = 0; j < this.cols; j++) {
+				if (Math.floor(Math.random() * 4) === 1) {
+					gridCopy[i][j] = true;
+				}
+			}
+		}
+		this.setState({
+			gridFull: gridCopy
+		});
   }
+
+componentDidMount(){
+  this.seed()
+}
   
   render(){
     return (
@@ -96,7 +117,7 @@ class App extends React.Component {
   }
 }
 
-
+//creating a clone of the arrays inside of the arrays , Deep clone
 function arrayClone(arr){
   return JSON.parse(JSON.stringify(arr))
 }
