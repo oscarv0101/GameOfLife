@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {ButtonToolbar} from 'react-bootstrap';
+import {ButtonToolbar,DropdownButton,Dropdown} from 'react-bootstrap';
 
 class Box extends React.Component{
   //we are using selectBox from our state only now we are entering the current row / current col 
@@ -88,11 +88,21 @@ class Buttons extends React.Component {
 					<button className="btn btn-default" onClick={this.props.seed}>
 					  Seed
 					</button>
+          <DropdownButton
+						title="Grid Size"
+						id="size-menu"
+						onSelect={this.handleSelect}
+					>
+						<Dropdown.Item eventKey="1">20x10</Dropdown.Item>
+						<Dropdown.Item eventKey="2">50x30</Dropdown.Item>
+						<Dropdown.Item eventKey="3">70x50</Dropdown.Item>
+					</DropdownButton>
 				</ButtonToolbar>
 			</div>
 			)
 	}
 }
+
 
 
 class App extends React.Component {
@@ -159,7 +169,7 @@ class App extends React.Component {
 	}
 
 	clear = () => {
-		var grid = Array(this.rows).fill().map(() => Array(this.cols).fill(false));
+		let grid = Array(this.rows).fill().map(() => Array(this.cols).fill(false));
 		this.setState({
 			gridFull: grid,
 			generation: 0
@@ -185,27 +195,24 @@ class App extends React.Component {
 		    let count = 0;
 		    operations.forEach(([x, y]) => {
           const newI = i + x;
-          const newJ = j + y;
-          if (newI >= 0 && newI < this.rows && newJ >= 0 && newJ < this.cols) {
-            count += g[newI][newJ];
+          const newK = j + y;
+          if (newI >= 0 && newI < this.rows && newK >= 0 && newK < this.cols) {
+            count += g[newI][newK];
           }
-        });
-        //checking for the cases if a cell has less than 2 neighbors and if it has more than three it dies 
-        //or else if any dead cell has exactly three neighbors it comes back to life 
-        if (count < 2 || count > 3) {
-          g2[i][j] = 0;
-        } else if (g[i][j] === 0 && count === 3) {
-          g2[i][j] = 1;
-        }
-		  }
+        });//create a condition to check if cells are alive then change the next state of the grid depending on how many neighbors 
+        //the cell has 
+        if (g[i][j] && (count < 2 || count > 3)) g2[i][j] = false;
+		    if (!g[i][j] && count === 3) g2[i][j] = true;
+      }
     }
-    //updating the state with the gridclone and incrementing the generation state by 1
+    
 		this.setState({
 		  gridFull: g2,
 		  generation: this.state.generation + 1
 		});
 
-	}
+  }
+  
 
 componentDidMount(){
   this.seed();
