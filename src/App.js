@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import {ButtonToolbar} from 'react-bootstrap';
 
 class Box extends React.Component{
   //we are using selectBox from our state only now we are entering the current row / current col 
@@ -21,7 +22,7 @@ class Box extends React.Component{
 
 class Grid extends React.Component {
   render(){
-    const width = this.props.cols * 16;
+    const width = this.props.cols * 14;
     let rowsArr = [];
     let boxClass = '';
     //for loop since we are looping through a nested array
@@ -49,6 +50,48 @@ class Grid extends React.Component {
       </div>
     )
   }
+}
+const operations = [
+  [0, 1],
+  [0, -1],
+  [1, -1],
+  [-1, 1],
+  [1, 1],
+  [-1, -1],
+  [1, 0],
+  [-1, 0]
+];
+
+class Buttons extends React.Component {
+
+
+
+	render() {
+		return (
+			<div className="center">
+				<ButtonToolbar>
+					<button className="btn btn-default" onClick={this.props.playButton}>
+						Play
+					</button>
+					<button className="btn btn-default" onClick={this.props.pauseButton}>
+					  Pause
+					</button>
+					<button className="btn btn-default" onClick={this.props.clear}>
+					  Clear
+					</button>
+					<button className="btn btn-default" onClick={this.props.slow}>
+					  Slow
+					</button>
+					<button className="btn btn-default" onClick={this.props.fast}>
+					  Fast
+					</button>
+					<button className="btn btn-default" onClick={this.props.seed}>
+					  Seed
+					</button>
+				</ButtonToolbar>
+			</div>
+			)
+	}
 }
 
 
@@ -97,14 +140,91 @@ class App extends React.Component {
 		});
   }
 
+  playButton = () => {
+		clearInterval(this.intervalId);
+		this.intervalId = setInterval(this.play, this.speed);
+  }
+  pauseButton = () => {
+    clearInterval(this.intervalId);
+
+  }
+  slow = () => {
+		this.speed = 1000;
+		this.playButton();
+	}
+
+	fast = () => {
+		this.speed = 100;
+		this.playButton();
+	}
+
+	clear = () => {
+		var grid = Array(this.rows).fill().map(() => Array(this.cols).fill(false));
+		this.setState({
+			gridFull: grid,
+			generation: 0
+		});
+	}
+
+	
+  //create a play function that will be the game logic .
+  // use two variables the original state of the grid and then the second variable be a clone of the grid.
+  // loop through the entire grid using a double for loop.
+  // compute the number of neighbors a cell has by setting a variable to 0 to keep track of how many neighbors a cell has and what to do with those 
+  //results.
+  //Use the array of operations to use as new indexs to write less repetative code
+  // Create two new variables as new index counters that will be used to update the number of neighbors each cell has.
+  //write an if statement to make sure we are not out of bounds when checking the number of neighbor a cell has then updating our count variable 
+  // to show how many neighbors a cell has 
+  play = () => {
+		let g = this.state.gridFull;
+		let g2 = arrayClone(this.state.gridFull);
+
+		for (let i = 0; i < this.rows; i++) {
+		  for (let j = 0; j < this.cols; j++) {
+		    let count = 0;
+		    operations.forEach(([x, y]) => {
+          const newI = i + x;
+          const newJ = j + y;
+          if (newI >= 0 && newI < this.rows && newJ >= 0 && newJ < this.cols) {
+            count += g[newI][newJ];
+          }
+        });
+        //checking for the cases if a cell has less than 2 neighbors and if it has more than three it dies 
+        //or else if any dead cell has exactly three neighbors it comes back to life 
+        if (count < 2 || count > 3) {
+          g2[i][j] = 0;
+        } else if (g[i][j] === 0 && count === 3) {
+          g2[i][j] = 1;
+        }
+		  }
+    }
+    //updating the state with the gridclone and incrementing the generation state by 1
+		this.setState({
+		  gridFull: g2,
+		  generation: this.state.generation + 1
+		});
+
+	}
+
 componentDidMount(){
-  this.seed()
+  this.seed();
+  this.playButton();
 }
   
   render(){
     return (
       <div>
       <h1>The Game of Life </h1>
+      <Buttons
+					playButton={this.playButton}
+					pauseButton={this.pauseButton}
+					slow={this.slow}
+					fast={this.fast}
+					clear={this.clear}
+					seed={this.seed}
+					
+				/>
       <Grid
       gridFull={this.state.gridFull}
       rows={this.rows}
