@@ -78,27 +78,28 @@ class Buttons extends React.Component {
 	render() {
 		return (
 			<div className="center">
-        <Button className="btn btn-default" onClick={this.props.playButton}>
+        <Button variant="secondary" className="btn btn-default" onClick={this.props.playButton}>
 						Play
 					</Button>
-					<Button className="btn btn-default" onClick={this.props.pauseButton}>
+					<Button variant="secondary" className="btn btn-default" onClick={this.props.pauseButton}>
 					  Pause
 					</Button>
-					<Button className="btn btn-default" onClick={this.props.clear}>
+					<Button variant="secondary" className="btn btn-default" onClick={this.props.clear}>
 					  Clear
 					</Button>
-					<Button className="btn btn-default" onClick={this.props.slow}>
+					<Button variant="secondary" className="btn btn-default" onClick={this.props.slow}>
 					  Slow
 					</Button>
-					<Button className="btn btn-default" onClick={this.props.fast}>
+					<Button variant="secondary" className="btn btn-default" onClick={this.props.fast}>
 					  Fast
 					</Button>
-					<Button className="btn btn-default" onClick={this.props.seed}>
+					<Button variant="secondary" className="btn btn-default" onClick={this.props.seed}>
 					  Seed
 					</Button>
         <DropdownButton
 						title="Grid Size"
             id="dropdown-basic-button"
+            variant="secondary"
 						onSelect={this.handleSelect}
 					>
 						<Item eventKey="1"><item ><Button>20x10</Button></item> </Item>
