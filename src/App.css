@@ -48,3 +48,10 @@ h1, h2, h3, h4 {
 h4 {
   margin-top: 0px;
 }
+/* .dropdown-menu .ul .li .a{
+  list-style-type: circle;
+} */
+
+.dropdown-item{
+  list-style-type: circle;
+}
