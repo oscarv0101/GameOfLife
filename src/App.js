@@ -4,7 +4,7 @@ import './App.css';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 // import ButtonGroup from 'react-bootstrap/ButtonGroup';
 // import Dropdown from 'react-bootstrap/Dropdown';
-// import Button from 'react-bootstrap/Button'
+import Button from 'react-bootstrap/Button'
 // import Menu from 'react-bootstrap/Menu';
 import Item from 'react-bootstrap/DropdownItem'
 
@@ -78,32 +78,32 @@ class Buttons extends React.Component {
 	render() {
 		return (
 			<div className="center">
-        <button className="btn btn-default" onClick={this.props.playButton}>
+        <Button className="btn btn-default" onClick={this.props.playButton}>
 						Play
-					</button>
-					<button className="btn btn-default" onClick={this.props.pauseButton}>
+					</Button>
+					<Button className="btn btn-default" onClick={this.props.pauseButton}>
 					  Pause
-					</button>
-					<button className="btn btn-default" onClick={this.props.clear}>
+					</Button>
+					<Button className="btn btn-default" onClick={this.props.clear}>
 					  Clear
-					</button>
-					<button className="btn btn-default" onClick={this.props.slow}>
+					</Button>
+					<Button className="btn btn-default" onClick={this.props.slow}>
 					  Slow
-					</button>
-					<button className="btn btn-default" onClick={this.props.fast}>
+					</Button>
+					<Button className="btn btn-default" onClick={this.props.fast}>
 					  Fast
-					</button>
-					<button className="btn btn-default" onClick={this.props.seed}>
+					</Button>
+					<Button className="btn btn-default" onClick={this.props.seed}>
 					  Seed
-					</button>
+					</Button>
         <DropdownButton
 						title="Grid Size"
             id="dropdown-basic-button"
 						onSelect={this.handleSelect}
 					>
-						<Item eventKey="1"><item >20x10</item> </Item>
-						<Item eventKey="2"> <item >50x30</item> </Item>
-						<Item eventKey="3"><item >70x50</item></Item>
+						<Item eventKey="1"><item ><Button>20x10</Button></item> </Item>
+						<Item eventKey="2"> <item ><Button>50x30</Button></item> </Item>
+						<Item eventKey="3"><item ><Button>70x50</Button></item></Item>
 					</DropdownButton>
 			</div>
 			)
