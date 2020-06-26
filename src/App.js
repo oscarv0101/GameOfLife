@@ -63,6 +63,9 @@ const operations = [
 ];
 
 class Buttons extends React.Component {
+  handleSelect = (evt) => {
+		this.props.gridSize(evt);
+	}
 
 
 
@@ -175,7 +178,23 @@ class App extends React.Component {
 			generation: 0
 		});
 	}
+  gridSize = (size) => {
+		switch (size) {
+			case "1":
+				this.cols = 20;
+				this.rows = 10;
+			break;
+			case "2":
+				this.cols = 50;
+				this.rows = 30;
+			break;
+			default:
+				this.cols = 70;
+				this.rows = 50;
+		}
+		this.clear();
 
+	}
 	
   //create a play function that will be the game logic .
   // use two variables the original state of the grid and then the second variable be a clone of the grid.
@@ -230,7 +249,7 @@ componentDidMount(){
 					fast={this.fast}
 					clear={this.clear}
 					seed={this.seed}
-					
+					gridSize={this.gridSize}
 				/>
       <Grid
       gridFull={this.state.gridFull}
